@@ -42,6 +42,14 @@ Ou no JSON de configuração (Claude Desktop: `claude_desktop_config.json`; Curs
 
 As respostas trazem só o nome do arquivo, nunca o caminho absoluto da sua máquina.
 
+## Demonstração
+
+[`demos/mcp-stdio-session.md`](demos/mcp-stdio-session.md) é uma sessão real: o servidor roda como processo, um cliente MCP cria uma nota a partir de um texto com uma injection e busca o resultado. É um registro em texto gerado por `demos/record_session.py`, não uma captura de tela.
+
+## Palestra
+
+[`talk/slides.md`](talk/slides.md) traz 12 slides em formato Marp ("Medir antes de confiar: guardrails e fidelidade em agentes de IA"), e `talk/demo.py` roda ao vivo cada etapa que os slides descrevem, com os números reais do projeto.
+
 ## Uso pela linha de comando
 
 ```bash
@@ -131,6 +139,8 @@ notes_agent/notes.py        # Markdown com frontmatter e gravação segura
 notes_agent/evals.py        # métricas contra os gabaritos
 evals/                      # injection.jsonl, fidelity.jsonl
 tests/                      # 36 testes
+demos/                      # sessão MCP gravada e o script que a gera
+talk/                       # slides (Marp) e demo ao vivo
 ```
 
 ## Licença

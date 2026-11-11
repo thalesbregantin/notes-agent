@@ -14,7 +14,7 @@ from collections.abc import Callable, Sequence
 from typing import Any, Protocol
 from urllib.parse import urlparse
 
-from .textutil import content_tokens, split_sentences
+from .textutil import STOP, TOKEN_RE, split_sentences
 
 Post = Callable[[str, dict[str, str], dict[str, Any], float], dict[str, Any]]
 
@@ -66,9 +66,13 @@ class ExtractiveBaseline:
         summary = " ".join(sentences[:2])
         if len(summary) < 20:
             summary = (summary + " (conteúdo curto)").ljust(20, ".")
-        counts = Counter(t for s in sentences for t in content_tokens(s))
-        tags = [t for t, _ in counts.most_common(3)]
-        title = sentences[0][:60].strip(" .") or "Nota"
+        words = [w for w in (t.lower() for t in TOKEN_RE.findall(text)) if len(w) >= 5 and w not in STOP]
+        tags = [w for w, _ in Counter(words).most_common(3)]
+        first = sentences[0]
+        words_of_title = first.split() if len(first) <= 80 else first[:80].rsplit(" ", 1)[0].split()
+        while len(words_of_title) > 1 and words_of_title[-1].lower().strip(".,;:") in STOP:
+            words_of_title.pop()
+        title = " ".join(words_of_title).strip(" .,;:") or "Nota"
         return json.dumps(
             {"title": title.ljust(3, "."), "summary": summary, "key_points": sentences[:5], "tags": tags},
             ensure_ascii=False,
