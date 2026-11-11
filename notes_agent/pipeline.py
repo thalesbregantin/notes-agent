@@ -59,20 +59,20 @@ def _merge(notes: list[Note]) -> Note:
     return Note(title=notes[0].title, summary=summary, key_points=points, tags=tags)
 
 
-def _generate(llm: LLM, text: str, extra: str = "") -> Note:
+def generate_note(llm: LLM, text: str, extra: str = "") -> Note:
     chunks = chunk_text(text)
     return _merge([generate_structured(llm, Note, SYSTEM, _prompt(c, extra)) for c in chunks])
 
 
 def make_note(text: str, llm: LLM, fidelity_threshold: float = 0.5) -> NoteResult:
     clean, flagged = quarantine(text)
-    note = _generate(llm, clean)
+    note = generate_note(llm, clean)
     report = check_note(note, clean, fidelity_threshold)
     repaired = False
     if report.unsupported_ratio > MAX_UNSUPPORTED:
         bad = "; ".join(c.text for c in report.unsupported)
         extra = f"\nRemova ou corrija estas afirmações sem apoio no texto: {bad}"
-        note = _generate(llm, clean, extra)
+        note = generate_note(llm, clean, extra)
         report, repaired = check_note(note, clean, fidelity_threshold), True
     return NoteResult(note, report, flagged, repaired)
 

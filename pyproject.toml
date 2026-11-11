@@ -6,8 +6,12 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = ["pydantic>=2.9"]
 
+[project.optional-dependencies]
+mcp = ["mcp>=2"]
+graph = ["langgraph>=1"]
+
 [dependency-groups]
-dev = ["mypy>=1.11", "pytest>=8", "ruff>=0.6"]
+dev = ["langgraph>=1", "mcp>=2", "mypy>=1.11", "pytest>=8", "ruff>=0.6"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

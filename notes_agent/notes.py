@@ -37,3 +37,18 @@ def save_note(vault: Path, note: Note, meta: dict[str, str | int | float]) -> Pa
         counter += 1
     path.write_text(render_markdown(note, meta), encoding="utf-8")
     return path
+
+
+def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
+    """Separa o frontmatter simples (`chave: valor`) do corpo da nota."""
+    if not text.startswith("---\n"):
+        return {}, text
+    head, sep, body = text[4:].partition("\n---\n")
+    if not sep:
+        return {}, text
+    meta = {}
+    for line in head.splitlines():
+        key, colon, value = line.partition(":")
+        if colon:
+            meta[key.strip()] = value.strip()
+    return meta, body.strip()
