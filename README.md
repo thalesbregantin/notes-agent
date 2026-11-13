@@ -1,6 +1,5 @@
 # notes-agent
 
-![CI](https://github.com/thalesbregantin/notes-agent/actions/workflows/ci.yml/badge.svg)
 [![Agensi](https://img.shields.io/badge/Agensi-Obsidian%20Notes%20Agent-6c5ce7)](https://www.agensi.io/skills/obsidian-notes-agent)
 
 Servidor MCP e agente (LangGraph) que transformam texto e transcrições em notas do Obsidian, tratando como requisito de engenharia o que costuma falhar em agentes de resumo: o modelo errar o formato, inventar fatos e obedecer ordens escondidas no conteúdo.

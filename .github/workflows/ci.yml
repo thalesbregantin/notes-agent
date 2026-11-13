@@ -1,10 +1,13 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch: {}
+  # push/pull_request triggers disabled: GitHub Actions is blocked by an
+  # account billing issue. Re-enable once that's resolved.
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
 
 jobs:
   test:
